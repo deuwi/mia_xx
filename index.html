@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mia - Profil</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1920&h=1080&fit=crop");
+        background-size: cover;
+        background-position: center;
+        opacity: 0.4;
+        z-index: -3;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 182, 185, 0.85),
+          rgba(254, 200, 161, 0.85),
+          rgba(250, 227, 217, 0.85),
+          rgba(255, 170, 165, 0.85)
+        );
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        z-index: -2;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .floating-circle {
+        position: fixed;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: float 20s infinite ease-in-out;
+        z-index: -1;
+      }
+
+      .circle1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, #ffd3b6, transparent);
+        top: -100px;
+        left: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle2 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, #ffaaa5, transparent);
+        bottom: -150px;
+        right: -150px;
+        animation-delay: 5s;
+      }
+
+      .circle3 {
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, #fec8a1, transparent);
+        top: 50%;
+        left: -125px;
+        animation-delay: 10s;
+      }
+
+      .circle4 {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, #fae3d9, transparent);
+        bottom: 20%;
+        left: 50%;
+        animation-delay: 15s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(50px, 50px) scale(1.1);
+        }
+        50% {
+          transform: translate(0, 100px) scale(0.9);
+        }
+        75% {
+          transform: translate(-50px, 50px) scale(1.05);
+        }
+      }
+
+      .container {
+        text-align: center;
+        max-width: 600px;
+        width: 100%;
+        animation: fadeIn 0.8s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .menu-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .menu-btn:hover {
+        transform: rotate(90deg);
+      }
+
+      .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        object-fit: cover;
+        margin: 0 auto 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .name {
+        color: white;
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .verified {
+        background: #1da1f2;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+
+      .status-bar {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .status-item {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: blink 2s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .cta-button {
+        background: linear-gradient(135deg, #ff8b94, #ffb6b9);
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(255, 139, 148, 0.4);
+        transition: all 0.3s;
+        letter-spacing: 1px;
+        margin: auto 15px;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(255, 139, 148, 0.6);
+      }
+      .cta-text {
+        font-size: 16px;
+        margin-top: 8px;
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .chat-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s;
+        border: none;
+        color: white;
+        font-size: 24px;
+        margin-right: 15px;
+      }
+
+      .chat-card:hover {
+        transform: scale(1.02);
+      }
+
+      .chat-title {
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .chat-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 50px;
+        height: 100%;
+      }
+
+      .social-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        transition: all 0.3s;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+      }
+
+      .social-icon:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .social-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .promo-title {
+        color: white;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 2px;
+      }
+      .cta-buttons {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        text-wrap: balance;
+      }
+      .countdown {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .countdown-item {
+        background: white;
+        border-radius: 15px;
+        padding: 20px 30px;
+        min-width: 100px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .countdown-number {
+        font-size: 36px;
+        font-weight: 700;
+        color: #ff8b94;
+        display: block;
+      }
+
+      .countdown-label {
+        font-size: 12px;
+        color: #666;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-top: 5px;
+      }
+      #copyButton {
+        padding: 5px;
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      @media (max-width: 600px) {
+        .profile-image {
+          width: 150px;
+          height: 150px;
+        }
+
+        .name {
+          font-size: 24px;
+        }
+
+        .promo-title {
+          font-size: 28px;
+        }
+
+        .cta-button {
+          font-size: 20px;
+          padding: 12px 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <video
+        src="public/site.MOV"
+        class="profile-image"
+        autoplay
+        loop
+        muted
+        playsinline
+      ></video>
+
+      <div class="name">
+        Peachy
+        <span class="verified">✓</span>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-item">
+          <span class="status-dot"></span>
+          En ligne
+        </div>
+        <div class="status-item">📍 À proximité</div>
+      </div>
+
+      <div class="cta-buttons">
+        <a
+          href="http://mym.fans/Peachyvice"
+          target="_blank"
+          style="text-decoration: none"
+        >
+          <button class="cta-button">
+            👉 MYM 👈 <br />
+            <span class="cta-text">Abo gratuit avec le code PEACHY</span>
+          </button>
+        </a>
+      </div>
+
+      <a
+        class="chat-card"
+        href="https://onlyfans.com/peachyvice"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="text-decoration: none"
+      >
+        👉 OnlyFans 👈
+      </a>
+
+      <a
+        onclick="copyOnlyFansLink()"
+        title="Copier le lien OnlyFans"
+        id="copyButton"
+        style="cursor: pointer; text-decoration: none"
+      >
+        <img
+          src="public/icons8-copy-24.png"
+          style="width: 24px; height: 24px; vertical-align: middle"
+          alt="copy"
+        />
+      </a>
+
+      <div class="social-icons">
+        <a
+          href="https://www.instagram.com/peachyvice/"
+          target="_blank"
+          class="social-icon"
+        >
+          <img src="public/icons8-instagram-50.png" alt="Instagram" />
+        </a>
+        <a href="https://t.me/peachyvice" target="_blank" class="social-icon">
+          <img src="public/icons8-telegram-50.png" alt="Telegram" />
+        </a>
+        <a
+          href="https://www.tiktok.com/@peachy.vice"
+          target="_blank"
+          class="social-icon"
+        >
+          <img src="public/icons8-tiktok-50.png" alt="TikTok" />
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // Fonction pour copier le lien OnlyFans
+      function copyOnlyFansLink() {
+        const link = "https://onlyfans.com/peachyvice";
+
+        // Méthode alternative qui fonctionne partout
+        const textarea = document.createElement("textarea");
+        textarea.value = link;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+          document.execCommand("copy");
+          // Changer temporairement l'icône du bouton
+          const button = document.getElementById("copyButton");
+          button.innerHTML = "✅";
+          button.title = "Lien copié !";
+          setTimeout(() => {
+            button.innerHTML = `<img
+          src="public/icons8-copy-24.png"
+          style="width: 24px; height: 24px; vertical-align: middle"
+          alt="copy"
+        />`;
+            button.title = "Copier le lien OnlyFans";
+          }, 2000);
+        } catch (err) {
+          alert("Lien OnlyFans: " + link);
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      }
+
+      // Compte à rebours fonctionnel
+      let totalSeconds = 0 * 3600 + 6 * 60 + 19;
+
+      function updateCountdown() {
+        const hours = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = totalSeconds % 60;
+
+        document.getElementById("hours").textContent = String(hours).padStart(
+          2,
+          "0"
+        );
+        document.getElementById("mins").textContent = String(mins).padStart(
+          2,
+          "0"
+        );
+        document.getElementById("secs").textContent = String(secs).padStart(
+          2,
+          "0"
+        );
+
+        if (totalSeconds > 0) {
+          totalSeconds--;
+        } else {
+          totalSeconds = 0 * 3600 + 6 * 60 + 19; // Réinitialiser
+        }
+      }
+
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+    </script>
+  </body>
+</html>
