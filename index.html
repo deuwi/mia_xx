@@ -396,6 +396,93 @@
         font-size: 24px;
       }
 
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        animation: fadeIn 0.3s;
+      }
+
+      .modal-content {
+        background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+        margin: 15% auto;
+        padding: 30px;
+        border: 2px solid #ff1493;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 10px 50px rgba(255, 20, 147, 0.5);
+        animation: slideIn 0.3s;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        font-size: 28px;
+        font-weight: bold;
+        color: #ff1493;
+        margin-bottom: 20px;
+      }
+
+      .modal-text {
+        color: white;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .modal-btn {
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .modal-btn-confirm {
+        background: #ff1493;
+        color: white;
+      }
+
+      .modal-btn-confirm:hover {
+        background: #ff69b4;
+        transform: translateY(-2px);
+      }
+
+      .modal-btn-cancel {
+        background: #666;
+        color: white;
+      }
+
+      .modal-btn-cancel:hover {
+        background: #888;
+        transform: translateY(-2px);
+      }
+
       @media (max-width: 600px) {
         .profile-image {
           width: 150px;
@@ -472,17 +559,10 @@
       </div>
 
       <div class="cta-buttons">
-        <a
-          href="https://mym.fans/Mia_xx"
-          target="_blank"
-          rel="noopener noreferrer"
-          style="text-decoration: none"
-        >
-          <button class="cta-button">
-            👉 MYM 👈 <br />
-            <span class="cta-text">Abo gratuit avec le code MIA</span>
-          </button>
-        </a>
+        <button class="cta-button" onclick="showModal('https://mym.fans/Mia_xx')">
+          👉 MYM 👈 <br />
+          <span class="cta-text">Abo gratuit avec le code MIA</span>
+        </button>
       </div>
 
       <div
@@ -494,14 +574,7 @@
           gap: 10px;
         "
       >
-        <a
-          href="https://onlyfans.com/mia_xxoff"
-          target="_blank"
-          rel="noopener noreferrer"
-          style="text-decoration: none"
-        >
-          <button class="cta-button">👉 OnlyFans 👈</button>
-        </a>
+        <button class="cta-button" onclick="showModal('https://onlyfans.com/mia_xxoff')">👉 OnlyFans 👈</button>
         <a
           onclick="copyOnlyFansLink()"
           title="Copier le lien OnlyFans"
@@ -517,7 +590,50 @@
       </div>
     </div>
 
+    <!-- Modale d'avertissement -->
+    <div id="ageModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">⚠️ Contenu Adulte ⚠️</div>
+        <div class="modal-text">
+          Ce contenu est réservé aux personnes majeures.<br>
+          Vous devez avoir 18 ans ou plus pour continuer.<br><br>
+          Confirmez-vous que vous êtes majeur(e) ?
+        </div>
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-confirm" onclick="confirmAge()">Oui, j'ai 18 ans ou plus</button>
+          <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Non, j'ai moins de 18 ans</button>
+        </div>
+      </div>
+    </div>
+
     <script>
+      let pendingUrl = '';
+
+      function showModal(url) {
+        pendingUrl = url;
+        document.getElementById('ageModal').style.display = 'block';
+      }
+
+      function closeModal() {
+        document.getElementById('ageModal').style.display = 'none';
+        pendingUrl = '';
+      }
+
+      function confirmAge() {
+        if (pendingUrl) {
+          window.open(pendingUrl, '_blank');
+          closeModal();
+        }
+      }
+
+      // Fermer la modale en cliquant en dehors
+      window.onclick = function(event) {
+        const modal = document.getElementById('ageModal');
+        if (event.target === modal) {
+          closeModal();
+        }
+      }
+
       // Fonction pour copier le lien OnlyFans
       function copyOnlyFansLink() {
         const link = "https://onlyfans.com/mia_xxoff";
